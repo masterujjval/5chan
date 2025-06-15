@@ -3,8 +3,6 @@ import socket
 import argparse
 import os
 import sys
-import tkinter as tk
-
 
 """
 NOTE: if you are already having running server or shared room server and port change the port number and 
@@ -43,7 +41,7 @@ class Send(threading.Thread):
             # send message to server for broadcasting
             
             else:
-                self.sock.sendall('{}: {} .'.format(self.name, message).encode("ascii"))
+                self.sock.sendall('{}: {}'.format(self.name, message).encode("ascii"))
 
         print("\nQuitting...")
         self.sock.close()
@@ -70,7 +68,7 @@ class Receive(threading.Thread):
 
             if message:
                 if self.messages:
-                    self.messages.insert(tk.END, message)
+                    self.messages.insert(0, message)
                     print("hi")
                     print('\r{}\n{}: '.format(message, self.name), end='')
 
@@ -110,7 +108,7 @@ class Client:
 
         print()
 
-        print(" Welcome {}! getting ready to send and receive messages...".format(self.name))
+        print(" Welcome {}! Welcome to Node Chat CLI messaging community!".format(self.name))
 
         # create send and receive threads
 
