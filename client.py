@@ -5,6 +5,14 @@ import os
 import sys
 import tkinter as tk
 
+
+"""
+NOTE: if you are already having running server or shared room server and port change the port number and 
+connect using that server address not need to run \'server.py\' for that.
+
+Type "QUIT" to leave the room
+"""
+
 class Send(threading.Thread):
     
     # listens for user input from cmd line
