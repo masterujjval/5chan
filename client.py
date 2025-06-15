@@ -129,7 +129,7 @@ class Client:
         # sends msg from textInput form gui
         message=textInput.get()
         textInput.delete(0,tk.END)
-        self.messages.insert(tk.END, '{}: {} '.format(self.name, message))
+        self.messages.insert(0, '{}: {} '.format(self.name, message))
 
         # TYPE QUIT to leave the chatroom 
         if message=="QUIT":
