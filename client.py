@@ -34,28 +34,24 @@ class Send(threading.Thread):
         while True:
             print('{}: '.format(self.name),end='')
             sys.stdout.flush()
-            if key:
-                message=sys.stdin.readline()[:-1]
-                fernat=Fernet(key)
-                message=fernat.encrypt(message.encode())
-                
-                #here we have to add some prefix to identify the encrypted message
+            message=sys.stdin.readline()[:-1]
 
-                message=b"[ENC]"+message
-
-            elif key==None:
-                message=sys.stdin.readline()[:-1]
-           
-
-            if message=="QUIT":
-                self.sock.sendall('5chan : {} has left the chat.'.format(self.name).encode("ascii"))
+            if message == "QUIT":
+                self.sock.sendall('\n5chan : {} has left the chat.'.format(self.name).encode("ascii"))
                 break
 
+            if key:
+                fernat = Fernet(key)
+                encrypted = fernat.encrypt(message.encode())
+                final_message=b"[ENC]"+encrypted
+                self.sock.sendall('{}:'.format(self.name).encode("utf-8") + final_message)
 
+            else:
+                self.sock.sendall('{}: {}'.format(self.name, message).encode("utf-8"))
             # send message to server for broadcasting
             
-            else:
-                self.sock.sendall('{}: {}'.format(self.name, message).encode("ascii"))
+            # else:
+            #     self.sock.sendall('{}: {}'.format(self.name, message).encode("ascii"))
 
         print("\nQuitting...")
         self.sock.close()
@@ -75,28 +71,39 @@ class Receive(threading.Thread):
         self.messages=None
 
     def run(self):
-        #Recieves data from the server and displays it in the gui
-
         while True:
-            message=self.sock.recv(1024).decode("ascii")
+            message = self.sock.recv(4096)
 
-            if message:
-                if self.messages:
-                    self.messages.insert(0, message)
-                    print("hi")
-                    print('\r{}\n{}: '.format(message, self.name), end='')
-
-                else:
-                    print('\r{}\n{}: '.format(message, self.name), end='')
-
-
-
-            else:
-                print('\n No. We have lost connection to the server!')
-                print('\nQuitting...')
-
+            if not message:
+                print('\nConnection closed by server.')
                 self.sock.close()
                 sys.exit(0)
+
+            try:
+                message_str = message.decode()
+
+                if "[ENC]" in message_str:
+                    name, enc_msg = message_str.split(":", 1)
+                    enc_msg = enc_msg.strip()
+
+                    if enc_msg.startswith("[ENC]") and key:
+                        enc_bytes = enc_msg[5:].encode()
+                        fernet = Fernet(key)
+                        decrypted = fernet.decrypt(enc_bytes).decode()
+                        message_str = f"{name}: {decrypted}"
+                    elif not key:
+                        message_str = f"{name}: You need private key to view this message"
+                        print(f'\r{message_str}\n{name}: ', end='', flush=True)
+                        continue
+
+                print(f'\r{message_str}\n{self.name}: ', end='', flush=True)
+
+            except Exception as e:
+                print(f"[!] Error handling message: {e}")
+                continue
+
+
+            
 
 
 class Client:
