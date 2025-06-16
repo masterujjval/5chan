@@ -4,6 +4,7 @@ import argparse
 import os
 import sys
 import random
+from cryptography.fernet import Fernet
 """
 NOTE: if you are already having running server or shared room server and port change the port number and 
 connect using that server address not need to run \'server.py\' for that.
@@ -32,6 +33,7 @@ class Send(threading.Thread):
             print('{}: '.format(self.name),end='')
             sys.stdout.flush()
             message=sys.stdin.readline()[:-1]
+           
 
             if message=="QUIT":
                 self.sock.sendall('5chan : {} has left the chat.'.format(self.name).encode("ascii"))

@@ -101,10 +101,20 @@ def exit(server):
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description="Anon Chat Server")
-    host=input("Enter the server address (without https:// or http:// default localhost): ").strip().lower()
+    host=input("Server address, anons! (No gay https:// or http://, just the good stuff. localhost if you're a true shut-in): ").strip().lower()
     host= host if host else "localhost"
 
-    # generate key for secure chatting in the room 
+    # generate key for secure chatting in the room
+
+    key_option= input("Key for chat encryption? y/n: ").strip().lower()
+    if key_option=='y':
+        key_option=Fernet.generate_key()
+        print(f"Yo, anons! Got a secret decoder ring for your degenerate chats. Key's here: \n\033[31m{key_option.decode("ascii")}\033[0m\n")
+
+    else:
+        key_option=None 
+
+    
     
     
 
