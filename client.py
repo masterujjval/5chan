@@ -93,7 +93,7 @@ class Receive(threading.Thread):
                         message_str = f"{name}: {decrypted}"
                     elif not key:
                         message_str = f"{name}: You need private key to view this message"
-                        print(f'\r{message_str}\n{name}: ', end='', flush=True)
+                        print(f'\r{message_str}\n{self.name}: ', end='', flush=True)
                         continue
 
                 print(f'\r{message_str}\n{self.name}: ', end='', flush=True)
