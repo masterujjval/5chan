@@ -34,7 +34,13 @@ class Send(threading.Thread):
         while True:
             print('{}: '.format(self.name),end='')
             sys.stdout.flush()
-            message=sys.stdin.readline()[:-1]
+            if key:
+                message=sys.stdin.readline()[:-1]
+                fernat=Fernet(key)
+                message=fernat.encrypt(message.encode())
+
+            elif key==None:
+                message=sys.stdin.readline()[:-1]
            
 
             if message=="QUIT":
