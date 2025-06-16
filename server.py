@@ -70,7 +70,7 @@ class ServerSocket(threading.Thread):
             message=self.sc.recv(1024).decode("ascii")
 
             if message:
-                print(f"{self.sockname} says {message}")
+                print(f"{self.sockname} sent a messsage")
                 self.server.broadcast(message,self.sockname)
 
             else:
@@ -99,7 +99,7 @@ def exit(server):
 
 
 if __name__=="__main__":
-    parser=argparse.ArgumentParser(description="Chatroom Server")
+    parser=argparse.ArgumentParser(description="Anon Chat Server")
     parser.add_argument("host",help="Interface the server listens at")
     parser.add_argument("-p",metavar="PORT",type=int, default=1060, help="TCP port (default 1060)")
 

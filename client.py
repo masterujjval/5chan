@@ -3,7 +3,7 @@ import socket
 import argparse
 import os
 import sys
-
+import random
 """
 NOTE: if you are already having running server or shared room server and port change the port number and 
 connect using that server address not need to run \'server.py\' for that.
@@ -34,7 +34,7 @@ class Send(threading.Thread):
             message=sys.stdin.readline()[:-1]
 
             if message=="QUIT":
-                self.sock.sendall('Server : {} has left the chat.'.format(self.name).encode("ascii"))
+                self.sock.sendall('5chan : {} has left the chat.'.format(self.name).encode("ascii"))
                 break
 
 
@@ -106,9 +106,17 @@ class Client:
 
         self.name=input("Enter your name: ")
 
+        
+        #adding color
+        ansi_colors = ["\033[30m", "\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m", "\033[36m", "\033[37m", "\033[90m", "\033[91m", "\033[92m", "\033[93m", "\033[94m", "\033[95m", "\033[96m", "\033[97m"]
+        rand=random.randint(0,len(ansi_colors)-1)
+        
+        self.name=ansi_colors[rand]+self.name+"\033[0m"
+
+
         print()
 
-        print(" Welcome {}! Welcome to Node Chat CLI messaging community!".format(self.name))
+        print("Welcome {}! Welcome to 5chan CLI messaging community!".format(self.name))
 
         # create send and receive threads
 
@@ -119,7 +127,7 @@ class Client:
         send.start()
         receive.start()
 
-        self.sock.sendall("Server: {} has joined the chat. say hi".format(self.name).encode("ascii"))
+        self.sock.sendall("5chan: {} has joined the chat. say hi".format(self.name).encode("ascii"))
 
         return receive
     
@@ -128,12 +136,12 @@ class Client:
 
         # sends msg from textInput form gui
         message=textInput.get()
-        textInput.delete(0,tk.END)
+        
         self.messages.insert(0, '{}: {} '.format(self.name, message))
 
         # TYPE QUIT to leave the chatroom 
         if message=="QUIT":
-            self.sock.sendall('Server: {} has left the chatroom '.format(self.name).encode("ascii"))
+            self.sock.sendall('5chan: {} has left the chatroom '.format(self.name).encode("ascii"))
             print("\nQutting..")
             self.sock.close()
             sys.exit(0)
@@ -151,11 +159,8 @@ def main(host, port):
 
 
 if __name__=="__main__":
-    parser=argparse.ArgumentParser(description="Chatroom Server")
-    parser.add_argument("host",help="Interface the server listens at")
-    parser.add_argument("-p",metavar="PORT",type=int, default=1060, help="TCP port (default 1060)")
-
-    args=parser.parse_args()
-
-    main(args.host, args.p)
+    host=input("Enter the server host address (without https:// or http://): ").strip().lower()
+    port=input("Enter the server port number (default 1060): ").strip()
+    port = port if port else 1060
+    main(host, port)
 
