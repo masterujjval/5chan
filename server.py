@@ -3,6 +3,7 @@ import socket
 import argparse
 import os
 import sys
+from cryptography.fernet import Fernet
 
 class Server(threading.Thread):
     def __init__(self, host,port):
@@ -100,15 +101,18 @@ def exit(server):
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description="Anon Chat Server")
-    parser.add_argument("host",help="Interface the server listens at")
-    parser.add_argument("-p",metavar="PORT",type=int, default=1060, help="TCP port (default 1060)")
+    host=input("Enter the server address (without https:// or http:// default localhost): ").strip().lower()
+    host= host if host else "localhost"
 
-    args=parser.parse_args()
+    # generate key for secure chatting in the room 
+    
+    
 
+    
 
     # create and start server thread
 
-    server=Server(args.host,args.p)
+    server=Server(host,1060)
     server.start()
 
     exit=threading.Thread(target=exit, args=(server,))
