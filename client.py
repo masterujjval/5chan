@@ -38,6 +38,10 @@ class Send(threading.Thread):
                 message=sys.stdin.readline()[:-1]
                 fernat=Fernet(key)
                 message=fernat.encrypt(message.encode())
+                
+                #here we have to add some prefix to identify the encrypted message
+
+                message=b"[ENC]"+message
 
             elif key==None:
                 message=sys.stdin.readline()[:-1]
