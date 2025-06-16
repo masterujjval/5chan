@@ -12,6 +12,8 @@ connect using that server address not need to run \'server.py\' for that.
 Type "QUIT" to leave the room
 """
 
+global key
+
 class Send(threading.Thread):
     
     # listens for user input from cmd line
@@ -164,5 +166,14 @@ if __name__=="__main__":
     host=input("Enter the server host address (without https:// or http://): ").strip().lower()
     port=input("Enter the server port number (default 1060): ").strip()
     port = port if port else 1060
+
+    key=input("Do you have private key? y/n: ").strip().lower()
+    if key=="y":
+        key=input("Enter the private: ").strip().lower()
+        key=key.encode()
+
+    else :
+        key=None
+
     main(host, port)
 
