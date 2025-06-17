@@ -168,7 +168,7 @@ class Client:
 
     def send(self, textInput):
 
-        # sends msg from textInput form gui
+        # sends msg 
         message=textInput.get()
         
         self.messages.insert(0, '{}: {} '.format(self.name, message))
