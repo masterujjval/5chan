@@ -1,9 +1,8 @@
 import threading
 import socket
 import argparse
-import os
 import sys
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet # type: ignore
 
 class Server(threading.Thread):
     def __init__(self, host,port):
