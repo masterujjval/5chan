@@ -97,16 +97,27 @@ class ServerSocket(threading.Thread):
 
 def exit(server):
     while True:
-        ipt=input("")
-        if ipt =="q":
-            print("Closing all connections...")
+        try:
+            ipt=input("")
+            if ipt =="q":
+                print("Closing all connections...")
 
-            for connection in server.connections:
-                connection.sc.close()
+                for connection in server.connections:
+                    connection.sc.close()
 
 
-            print("Shutting down the server...")
-            sys.exit(0)
+                print("Shutting down the server...")
+                sys.exit(0)
+        except Exception:
+                print("Closing all connections...")
+
+                for connection in server.connections:
+                    connection.sc.close()
+
+
+                print("Shutting down the server...")
+                sys.exit(0)
+
 
 
 if __name__=="__main__":
