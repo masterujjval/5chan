@@ -42,9 +42,11 @@ It's a **demo**, a **playground**, a **test lab with a pulse**.
 Ghost mode enabled 👻  
 Use it, break it, meme on it — just don’t expect 99.99% uptime or quantum resistance.
 
-- Here's the server address: <span style="color:red">54.210.191.138</span>
+- Here's the server address: <span style="color:red">54.210.191.138</span>  
+- Port: 1060  
 
-- Port: 1060
+<strong>Seriously, don’t be that person — this server is for community fun and testing, not target practice.</strong>
+
 
 
 
