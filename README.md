@@ -1,10 +1,15 @@
-# 🌸 5chan CLI Messaging Tool
+# 🌸 5chan CLI: Own the Signal
 
 ## 📋 Description
-The 5chan command line interface is made for secure communication where the server can by host by any peer to keep the communication secure and within one's control.
+<strong>Peer-powered. No middlemen. No mercy.</strong>
 
-The tool has private key(symmetric) option to encrypt the the message and decrypt the message on the other side but key need to be shared with another person for decryption.
+Spin up your own server — you're the host, you're the firewall, you're the last line.
+Messages are end-to-end encrypted using a shared symmetric key, because trust isn’t outsourced.
 
+You and your peer share the key. No key, no decrypt. Just silence.
+Welcome to 5chan. Speak freely, but bring your own cipher.
+
+No key? No problem — fall back to plaintext and whisper into the void like it’s 1999.
 
 
 
