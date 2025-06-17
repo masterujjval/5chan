@@ -1,7 +1,5 @@
 import threading
 import socket 
-import argparse
-import os
 import sys
 import random
 from cryptography.fernet import Fernet #type:ignore
