@@ -109,7 +109,7 @@ if __name__=="__main__":
     key_option= input("Key for chat encryption? y/n: ").strip().lower()
     if key_option=='y':
         key_option=Fernet.generate_key()
-        print(f"Yo, anons! Got a secret decoder ring for your degenerate chats. Key's here: \n\033[31m{key_option.decode("ascii")}\033[0m\n")
+        print(f"Yo, anons! Got a secret decoder ring for your degenerate chats. Key's here: \n\033[31m{key_option.decode('ascii')}\033[0m\n")
 
     else:
         key_option=None 
