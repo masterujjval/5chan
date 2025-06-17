@@ -29,7 +29,7 @@ class Server(threading.Thread):
             server_socket=ServerSocket(sc,sockname,self)
 
             # start a new thread
-
+            
             server_socket.start()
 
             # Add thread to active connection 
@@ -62,24 +62,35 @@ class ServerSocket(threading.Thread):
         self.sc=sc
         self.sockname=sockname
         self.server=server
+        self.alive = True 
         
 
     def run(self):
 
         while True:
-            message=self.sc.recv(4096).decode("ascii")
+            try:
+        
+                message=self.sc.recv(4096).decode("ascii")
 
-            if message:
-                print(f"{self.sockname} sent a messsage")
-                self.server.broadcast(message,self.sockname)
+                if message:
+                    print(f"{self.sockname} sent a messsage")
+                    self.server.broadcast(message,self.sockname)
 
-            else:
-                print(f"{self.sockname} has closed the connection")
-                self.sc.close()
-                server.remove_connection(self)
+                else:
+                    print(f"{self.sockname} has closed the connection")
+                    self.sc.close()
+                    server.remove_connection(self)
 
-                return
-            
+                    return
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+                    print(f"{self.sockname} has closed the connection")
+                    
+                    self.server.broadcast("5chan: Anon left the chat",self.sockname)
+
+                    self.sc.close()
+                    server.remove_connection(self)
+                    return
+
     def send(self,message):
         self.sc.sendall(message.encode("ascii"))
         
@@ -117,6 +128,8 @@ if __name__=="__main__":
     # create and start server thread
 
     server=Server(host,1060)
+    
+
     server.start()
 
     exit=threading.Thread(target=exit, args=(server,))
