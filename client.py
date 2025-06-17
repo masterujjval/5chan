@@ -35,7 +35,7 @@ class Send(threading.Thread):
             message=sys.stdin.readline()[:-1]
 
             if message == "QUIT":
-                self.sock.sendall('\n5chan : {} has left the chat.'.format(self.name).encode("ascii"))
+                self.sock.sendall('\n\033[31m5chan : {} has left the chat.\033[0m'.format(self.name).encode("ascii"))
                 break
 
             if key:
@@ -73,7 +73,7 @@ class Receive(threading.Thread):
             message = self.sock.recv(4096)
 
             if not message:
-                print('\nConnection closed by server.')
+                print('\nConnection closed by 5chan.')
                 self.sock.close()
                 sys.exit(0)
 
@@ -123,7 +123,7 @@ class Client:
 
         print()
 
-        self.name=input("Enter your name: ")
+        self.name=input("Enter your username: ")
 
         
         #adding color
@@ -146,7 +146,7 @@ class Client:
         send.start()
         receive.start()
 
-        self.sock.sendall("5chan: {} has joined the chat. say hi".format(self.name).encode("ascii"))
+        self.sock.sendall("\033[31m5chan: {} has joined the chat\033[0m".format(self.name).encode("ascii"))
 
         return receive
     
@@ -184,7 +184,7 @@ if __name__=="__main__":
 
     key=input("Do you have private key? y/n: ").strip().lower()
     if key=="y":
-        key=input("Enter the private: ").strip().lower()
+        key=input("Enter the private key: ").strip().lower()
         key=key.encode()
 
     else :

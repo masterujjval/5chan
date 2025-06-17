@@ -67,7 +67,7 @@ class ServerSocket(threading.Thread):
     def run(self):
 
         while True:
-            message=self.sc.recv(1024).decode("ascii")
+            message=self.sc.recv(4096).decode("ascii")
 
             if message:
                 print(f"{self.sockname} sent a messsage")
@@ -101,11 +101,11 @@ def exit(server):
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description="Anon Chat Server")
     host=input("Server address, anons! (No gay https:// or http://, just the good stuff. localhost if you're a true shut-in): ").strip().lower()
-    host= host if host else "localhost"
+    host= host if host else "0.0.0.0"
 
     # generate key for secure chatting in the room
 
-    key_option= input("Key for chat encryption? y/n: ").strip().lower()
+    key_option= input("Want a key for chat encryption? y/n: ").strip().lower()
     if key_option=='y':
         key_option=Fernet.generate_key()
         print(f"Yo, anons! Got a secret decoder ring for your degenerate chats. Key's here: \n\033[31m{key_option.decode('ascii')}\033[0m\n")
@@ -113,11 +113,6 @@ if __name__=="__main__":
     else:
         key_option=None 
 
-    
-    
-    
-
-    
 
     # create and start server thread
 
