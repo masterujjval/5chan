@@ -40,13 +40,23 @@ class Server(threading.Thread):
 
 
     def broadcast(self, message, source):
+        try:
+            for connection in self.connections:
 
-        for connection in self.connections:
+                # send to all connections client accept the source client
 
-            # send to all connections client accept the source client
+                if connection.sockname!=source:
+                    connection.send(message)
+        except BrokenPipeError:
+            for connection in self.connections:
 
-            if connection.sockname!=source:
-                connection.send(message)
+                # send to all connections client accept the source client
+
+                if connection.sockname!=source:
+                    connection.send(message)
+
+
+
 
 
     def remove_connection(self,connection):
@@ -58,11 +68,14 @@ class Server(threading.Thread):
 
 class ServerSocket(threading.Thread):
     def __init__(self, sc, sockname, server):
-        super().__init__()
-        self.sc=sc
-        self.sockname=sockname
-        self.server=server
-        self.alive = True 
+        try:
+            super().__init__()
+            self.sc=sc
+            self.sockname=sockname
+            self.server=server
+            self.alive = True 
+        except ConnectionResetError:
+            print("Anon left the server")
         
 
     def run(self):
