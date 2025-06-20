@@ -23,7 +23,7 @@ class Server(threading.Thread):
         while True:
             # to accept new connections
             sc,sockname=sock.accept()
-            print(f"New connection from {sc.getpeername()} to {sc.getsockname()}")
+            
 
             # crate a new thread
             server_socket=ServerSocket(sc,sockname,self)
@@ -34,7 +34,9 @@ class Server(threading.Thread):
 
             # Add thread to active connection 
 
-            self.connections.append(server_socket)
+            self.connections.append(server_socket) # \033[32m green \033[31m red \033[0m reset
+            print(f"New connection from {sc.getpeername()} to {sc.getsockname()}. Total online anons: {len(self.connections)}")
+            self.broadcast(f"\033[32m5chan: Anon joined the chat. Total online anon: {len(self.connections)}", sockname)
             print("Ready to receive message from ", sc.getpeername())
 
 
@@ -90,18 +92,20 @@ class ServerSocket(threading.Thread):
                     self.server.broadcast(message,self.sockname)
 
                 else:
-                    print(f"{self.sockname} has closed the connection")
+                    
+                    self.server.broadcast(f"\033[31m5chan: Anon left the chat. Total online anons: {len(self.server.connections)-1}",self.sockname)
                     self.sc.close()
                     server.remove_connection(self)
+                    print(f"{self.sockname} has closed the connection. Total online anons: {len(self.server.connections)}")
 
                     return
             except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
-                    print(f"{self.sockname} has closed the connection")
                     
-                    self.server.broadcast("5chan: Anon left the chat",self.sockname)
+                    self.server.broadcast(f"\033[31m5chan: Anon left the chat.Total online anons: {len(self.server.connections)-1}",self.sockname)
 
                     self.sc.close()
                     server.remove_connection(self)
+                    print(f"{self.sockname} has closed the connection. Total online anons: {len(self.server.connections)}")
                     return
 
     def send(self,message):
