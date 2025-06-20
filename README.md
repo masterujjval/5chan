@@ -61,6 +61,3 @@ Use it, break it, meme on it — just don’t expect 99.99% uptime or quantum re
 - Run client.py on another terminal (or summon your friends if you’re not socially bankrupt). Boom—you’re connected.
 
 ![Screenshot 2025-06-20 181218](https://github.com/user-attachments/assets/0c822e3d-f698-4e57-91b6-df6777521c55)
-
-
-
