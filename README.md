@@ -49,11 +49,18 @@ Use it, break it, meme on it — just don’t expect 99.99% uptime or quantum re
 
 ## Usage and Screenshots
 
+### 🖥️ Spin up the Server
+  
+- Fire up ```server.py``` like a true gigachad. This bad boy waits for clients to yeet themselves into the chatroom.
 
+  
+![Screenshot 2025-06-20 181234](https://github.com/user-attachments/assets/8c48b1fe-8e6c-4fac-8721-e90027cadc67)
 
+### 👥 Client Joins the Fray
 
+- Run client.py on another terminal (or summon your friends if you’re not socially bankrupt). Boom—you’re connected.
 
-
+![Screenshot 2025-06-20 181218](https://github.com/user-attachments/assets/0c822e3d-f698-4e57-91b6-df6777521c55)
 
 
 
