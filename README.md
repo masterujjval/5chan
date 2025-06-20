@@ -47,6 +47,11 @@ Use it, break it, meme on it — just don’t expect 99.99% uptime or quantum re
 
 <strong>Seriously, don’t be that person — this server is for community fun and testing, not target practice.</strong>
 
+## Usage and Screenshots
+
+
+
+
 
 
 
