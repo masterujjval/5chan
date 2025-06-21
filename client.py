@@ -78,7 +78,7 @@ class Receive(threading.Thread):
                 message = self.sock.recv(4096)
 
                 if not message:
-                    print('\nConnection closed by 5chan.')
+                    print('\n5chan server closed...);')
                     self.sock.close()
                     sys.exit(0)
 
