@@ -44,20 +44,18 @@ class Server(threading.Thread):
 
 
     def broadcast(self, message, source):
-        try:
-            for connection in self.connections:
-
-                # send to all connections client accept the source client
-
-                if connection.sockname!=source:
+        dead_connections = []
+        for connection in self.connections:
+            if connection.sockname != source:
+                try:
                     connection.send(message)
-        except (BrokenPipeError, ConnectionAbortedError, ConnectionRefusedError, ConnectionResetError) :
-            for connection in self.connections:
+                except (BrokenPipeError, ConnectionAbortedError, ConnectionRefusedError, ConnectionResetError):
+                    dead_connections.append(connection)
 
-                # send to all connections client accept the source client
-
-                if connection.sockname!=source:
-                    connection.send(message)
+    # Clean up disconnected clients
+        for dead in dead_connections:
+            print(f"[!] Removing dead connection: {dead.sockname}")
+            self.connections.remove(dead)
 
 
 
@@ -109,9 +107,14 @@ class ServerSocket(threading.Thread):
                     server.remove_connection(self)
                     print(f"{self.sockname} has closed the connection. Anons online: {len(self.server.connections)}")
                     return
-
-    def send(self,message):
-        self.sc.sendall(message.encode("ascii"))
+    
+    # send message to the client
+    def send(self, message):
+        try:
+            self.sc.sendall(message.encode("ascii"))
+        except Exception as e:
+            print(f"[!] Send failed to {self.sockname}: {e}")
+            raise
         
 
 def exit(server):
