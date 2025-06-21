@@ -51,7 +51,7 @@ class Server(threading.Thread):
 
                 if connection.sockname!=source:
                     connection.send(message)
-        except BrokenPipeError:
+        except (BrokenPipeError, ConnectionAbortedError, ConnectionRefusedError, ConnectionResetError) :
             for connection in self.connections:
 
                 # send to all connections client accept the source client
@@ -101,7 +101,7 @@ class ServerSocket(threading.Thread):
                     print(f"{self.sockname} has closed the connection. Anons online: {len(self.server.connections)}")
 
                     return
-            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError , ConnectionRefusedError):
                     
                     self.server.broadcast(f"\033[31m5chan: Anon left the chat.Anons online: {len(self.server.connections)-1}",self.sockname)
 
